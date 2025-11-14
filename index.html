@@ -13,6 +13,15 @@
         <div class="cloud"></div>
     </div>
     <script>
+
+        let isHover = false;
+        document.querySelector(".container").addEventListener('mouseenter', () => {
+            isHover = true;
+        })
+        document.querySelector(".container").addEventListener('mouseleave', () => {
+            isHover = false;
+        })
+
         function generateText() {
             const letters = [];
             const numbers = [];
@@ -32,7 +41,9 @@
 
         function randomText() {
             // const texts = generateText();
-            const texts = ['y', 'u', 'x', 'i'];
+            const t1 = ['y', 'u', 'x', 'i'];
+            const t2 = ['审美', '对齐', '点击', '还原度', '标注', '规范', '统一', '组件', '全部要改', '微笑体', '切图', 'svg', '做不了', '1px', '那我不管', '同比', '环比', 'ROI', '动态', 'border', '语音',];
+            const texts = isHover ? t2 : t1;
             const text = texts[Math.floor(Math.random() * texts.length)];
 
             return text;
@@ -64,9 +75,12 @@
             setTimeout(() => {
                 cloudEle.removeChild(textEle);
             }, 2000);
+            window.requestAnimationFrame(rainEffect);
         };
 
-        setInterval(() => rainEffect(), 20);
+        // setInterval(() => rainEffect(), 20);
+        rainEffect();
+
 
     </script>
 </body>
@@ -135,18 +149,23 @@
             0 12px 11px rgba(120, 20, 0, 0.08),
             0 13px 15px rgba(100, 10, 0, 0.05);
         background-color: #fff;
-        opacity: 0;
+        opacity: 1;
         transition: all 0.5s;
     }
 
     .container:hover .yuxi {
         top: 55px;
-        opacity: 1;
+        opacity: 0;
     }
 
     .container:hover .cloud {
         filter: drop-shadow(0 0 30px var(--primary-color));
 
+    }
+
+    .container:hover .cloud .text {
+        --primary-color: #eee80;
+        text-shadow: 0 0 3px var(--primary-color), 0 0 6px var(--primary-color), 0 0 12px var(--primary-color);
     }
 
     .cloud {
@@ -193,6 +212,8 @@
         text-shadow: 0 0 5px var(--primary-color), 0 0 15px var(--primary-color), 0 0 30px var(--primary-color);
         transform-origin: bottom;
         animation: animate 2s linear forwards;
+        white-space: nowrap;
+        transition: all 0.3s;
     }
 
     @keyframes animate {
